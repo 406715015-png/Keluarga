@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lembaran Kerja 1 — Keluarga</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#2c2420;
+    --paper:#f6efdf;
+    --card:#fffbf2;
+    --teal:#1f6f6b;
+    --teal-dark:#144d4a;
+    --marigold:#e0983a;
+    --marigold-deep:#c97a1f;
+    --plum:#7c3f66;
+    --leaf:#3f8f5b;
+    --red:#c1462f;
+    --line:#e3d6b8;
+    --shadow: 0 10px 24px -14px rgba(44,36,32,0.35);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(224,152,58,0.14), transparent 40%),
+      radial-gradient(circle at 88% 92%, rgba(31,111,107,0.14), transparent 42%),
+      var(--paper);
+    font-family:'Sarabun', sans-serif;
+    color:var(--ink);
+    padding: 28px 16px 80px;
+  }
+  .wrap{max-width:760px; margin:0 auto;}
+
+  /* ---------- header ---------- */
+  .batik-rule{
+    height:10px;
+    background-repeat:repeat-x;
+    background-size:24px 10px;
+    background-image: repeating-linear-gradient(115deg, var(--marigold) 0 6px, transparent 6px 12px);
+    border-radius:6px;
+    opacity:0.9;
+    margin-bottom:18px;
+  }
+  header{ text-align:center; margin-bottom: 6px; }
+  .eyebrow{
+    font-family:'Kanit',sans-serif;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-size:12.5px;
+    color:var(--teal-dark);
+    font-weight:600;
+  }
+  h1{
+    font-family:'Kanit',sans-serif;
+    font-size: clamp(26px,5vw,34px);
+    margin: 4px 0 2px;
+    color:var(--marigold-deep);
+    font-weight:700;
+  }
+  .sub{
+    font-size:15.5px;
+    color:#5a4f45;
+    margin: 0 auto 20px;
+    max-width: 520px;
+  }
+  .sub b{color:var(--teal-dark);}
+
+  /* ---------- family tree signature ---------- */
+  .tree-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:22px 16px 18px;
+    margin-bottom:22px;
+    position:relative;
+    overflow:hidden;
+  }
+  .tree-title{
+    font-family:'Kanit',sans-serif;
+    text-align:center;
+    font-size:14.5px;
+    font-weight:600;
+    color:var(--teal-dark);
+    margin:0 0 14px;
+  }
+  .tree{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:6px;
+  }
+  .tree-row{ display:flex; justify-content:center; gap:14px; flex-wrap:wrap; }
+  .tree-row + .tree-row{ margin-top:2px; }
+  .node{
+    width:58px; text-align:center;
+    display:flex; flex-direction:column; align-items:center; gap:4px;
+  }
+  .dot{
+    width:44px; height:44px; border-radius:50%;
+    background:#efe6cf;
+    border:2px solid #d9cba3;
+    display:flex; align-items:center; justify-content:center;
+    font-size:19px;
+    transition: all .45s cubic-bezier(.34,1.4,.64,1);
+    box-shadow: inset 0 0 0 0 transparent;
+  }
+  .node.lit .dot{
+    background: var(--teal);
+    border-color: var(--teal-dark);
+    color:#fff;
+    transform: scale(1.12);
+    box-shadow: 0 0 0 5px rgba(31,111,107,0.16);
+  }
+  .node .label{ font-size:10.5px; color:#7a6d5f; font-weight:600; font-family:'Kanit',sans-serif;}
+  .node.lit .label{ color:var(--teal-dark); }
+  #saya-node .dot{ background:var(--marigold); border-color:var(--marigold-deep); color:#fff; }
+  .tree.glow{
+    animation: glowPulse 1.4s ease-in-out 1;
+  }
+  @keyframes glowPulse{
+    0%{ filter: drop-shadow(0 0 0 rgba(224,152,58,0)); }
+    50%{ filter: drop-shadow(0 0 14px rgba(224,152,58,0.55)); }
+    100%{ filter: drop-shadow(0 0 0 rgba(224,152,58,0)); }
+  }
+  .heart-note{
+    text-align:center;
+    margin-top:12px;
+    font-size:12.5px;
+    color:#9a8c7a;
+    font-style:italic;
+  }
+  .heart-note.on{ color:var(--marigold-deep); font-weight:600; font-style:normal; }
+
+  /* ---------- instructions ---------- */
+  .instructions{
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:6px solid var(--teal);
+    border-radius:14px;
+    padding:16px 18px;
+    margin-bottom:10px;
+    box-shadow:var(--shadow);
+  }
+  .instructions .my{ font-weight:600; color:var(--teal-dark); margin:0 0 6px; }
+  .instructions .th{ margin:0; font-size:14.5px; color:#5a4f45; }
+  .fields{
+    display:flex; gap:10px; flex-wrap:wrap; margin: 14px 0 22px;
+  }
+  .fields label{ font-size:12.5px; color:#7a6d5f; display:block; margin-bottom:3px; font-weight:600; }
+  .fields input{
+    border:1px solid var(--line); border-radius:10px; padding:8px 10px;
+    font-family:'Sarabun',sans-serif; font-size:14px; background:#fff;
+  }
+  .fields .f1{flex:2; min-width:160px;} .fields .f2{flex:1; min-width:100px;} .fields .f3{flex:1; min-width:120px;}
+
+  /* ---------- progress bar ---------- */
+  .progress-wrap{
+    position:sticky; top:10px; z-index:5;
+    background: rgba(246,239,223,0.92);
+    backdrop-filter: blur(4px);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:10px 14px;
+    margin-bottom:22px;
+    box-shadow:var(--shadow);
+    display:flex; align-items:center; gap:12px;
+  }
+  .progress-track{
+    flex:1; height:10px; background:#e9dfc4; border-radius:6px; overflow:hidden;
+  }
+  .progress-fill{
+    height:100%; width:0%; border-radius:6px;
+    background: linear-gradient(90deg, var(--marigold), var(--teal));
+    transition: width .5s ease;
+  }
+  .progress-label{
+    font-family:'Kanit',sans-serif; font-size:13px; font-weight:600; color:var(--teal-dark); white-space:nowrap;
+  }
+
+  /* ---------- question cards ---------- */
+  .q{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:18px 18px 16px;
+    margin-bottom:16px;
+    box-shadow:var(--shadow);
+    transition: box-shadow .25s ease, transform .25s ease;
+    position:relative;
+  }
+  .q.correct{ border-color:#a9d3b7; }
+  .q.incorrect{ border-color:#e3b3a6; }
+  .qhead{ display:flex; gap:12px; align-items:flex-start; }
+  .qnum{
+    flex:0 0 auto;
+    width:34px; height:34px; border-radius:50%;
+    background:var(--teal); color:#fff;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Kanit',sans-serif; font-weight:600; font-size:15px;
+  }
+  .q.correct .qnum{ background:var(--leaf); }
+  .q.incorrect .qnum{ background:var(--red); }
+  .qbody{ flex:1; }
+  .sentence{ font-size:16px; line-height:1.7; color:var(--ink); }
+  .sentence .icon{ margin-right:4px; }
+  .blank{
+    display:inline-block;
+    border:none;
+    border-bottom:2.5px solid var(--marigold-deep);
+    background:#fbf3e2;
+    border-radius:6px 6px 0 0;
+    padding:3px 8px;
+    font-family:'Sarabun',sans-serif;
+    font-size:15.5px;
+    font-weight:600;
+    color:var(--teal-dark);
+    width:150px;
+    text-align:center;
+    outline:none;
+  }
+  .blank:focus{ background:#fff3d9; }
+  .row-actions{ display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+  button{
+    font-family:'Kanit',sans-serif; font-weight:600; font-size:13.5px;
+    border-radius:10px; padding:8px 14px; cursor:pointer; border:1.5px solid transparent;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  button:active{ transform: scale(0.96); }
+  .btn-check{ background:var(--teal); color:#fff; }
+  .btn-check:hover{ background:var(--teal-dark); }
+  .btn-hint{ background:transparent; color:var(--marigold-deep); border-color:var(--marigold-deep); }
+  .btn-hint:hover{ background:#fdf0dd; }
+  .hint-box{
+    display:none;
+    margin-top:10px;
+    background:#fdf0dd;
+    border:1px dashed var(--marigold);
+    border-radius:10px;
+    padding:9px 12px;
+    font-size:13.5px;
+    color:#7a5416;
+  }
+  .hint-box.show{ display:block; }
+  .feedback{
+    display:none;
+    margin-top:12px;
+    border-radius:10px;
+    padding:11px 13px;
+    font-size:14px;
+    line-height:1.55;
+  }
+  .feedback.show{ display:block; }
+  .feedback.good{ background:#e9f5ec; color:#215c33; border:1px solid #b7ddc2; }
+  .feedback.bad{ background:#fbeae5; color:#8a3320; border:1px solid #edc0b1; }
+  .feedback .tag{ font-family:'Kanit',sans-serif; font-weight:700; margin-right:4px; }
+
+  /* ---------- summary ---------- */
+  .summary{
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    color:#fff;
+    border-radius:18px;
+    padding:22px 20px;
+    text-align:center;
+    box-shadow:var(--shadow);
+    margin-top:6px;
+  }
+  .summary h2{
+    font-family:'Kanit',sans-serif; margin:0 0 6px; font-size:20px;
+  }
+  .summary p{ margin:4px 0 14px; font-size:14.5px; opacity:.92; }
+  .summary .score{ font-family:'Kanit',sans-serif; font-size:34px; font-weight:700; margin-bottom:2px;}
+  .btn-reset{
+    background:var(--marigold); color:#fff; margin-top:6px;
+  }
+  .btn-reset:hover{ background:var(--marigold-deep); }
+
+  footer{ text-align:center; margin-top:26px; font-size:12px; color:#9a8c7a; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="batik-rule"></div>
+  <header>
+    <div class="eyebrow">Lembaran Kerja 1 · Interaktif</div>
+    <h1>Keluarga 👨‍👩‍👧‍👦</h1>
+    <p class="sub">แบบฝึกหัดคำศัพท์ <b>ครอบครัวในภาษามลายู</b> — เติมคำในช่องว่างให้ถูกต้อง แล้วต้นไม้ครอบครัวด้านล่างจะค่อย ๆ เติมเต็มไปพร้อมกับคำตอบของนักเรียน</p>
+  </header>
+
+  <div class="tree-card">
+    <p class="tree-title">🌳 Pohon Keluarga Saya — ต้นไม้ครอบครัวของฉัน</p>
+    <div class="tree" id="tree">
+      <div class="tree-row">
+        <div class="node" id="node-8"><div class="dot">👴</div><div class="label">Datuk</div></div>
+        <div class="node" id="node-9"><div class="dot">👵</div><div class="label">Nenek</div></div>
+      </div>
+      <div class="tree-row">
+        <div class="node" id="node-1"><div class="dot">👨</div><div class="label">Ayah</div></div>
+        <div class="node" id="node-2"><div class="dot">👩</div><div class="label">Ibu</div></div>
+      </div>
+      <div class="tree-row">
+        <div class="node" id="node-3"><div class="dot">🧑</div><div class="label">Abang</div></div>
+        <div class="node" id="node-4"><div class="dot">👧</div><div class="label">Kakak</div></div>
+        <div class="node" id="saya-node"><div class="dot">🙂</div><div class="label">Saya</div></div>
+        <div class="node" id="node-5"><div class="dot">🧒</div><div class="label">Adik L.</div></div>
+        <div class="node" id="node-6"><div class="dot">👦</div><div class="label">Adik P.</div></div>
+      </div>
+    </div>
+    <p class="heart-note" id="heart-note">— รักครอบครัวจะเปล่งประกายเมื่อทำครบทุกข้อ —</p>
+  </div>
+
+  <div class="instructions">
+    <p class="my">Arahan: Lengkapkan ayat di bawah dengan perkataan yang betul.</p>
+    <p class="th">คำชี้แจง: เติมคำที่ถูกต้องลงในช่องว่างของแต่ละประโยค พิมพ์คำตอบเป็นภาษามลายู แล้วกด “ตรวจคำตอบ” หากไม่แน่ใจให้กดปุ่ม “คำใบ้” เพื่อดูคำใบ้เป็นภาษาไทยก่อนได้</p>
+  </div>
+
+  <div class="fields">
+    <div class="f1"><label>Nama / ชื่อ</label><input type="text" placeholder="................"></div>
+    <div class="f2"><label>Kelas / ชั้น</label><input type="text" placeholder="........"></div>
+    <div class="f3"><label>Tarikh / วันที่</label><input type="text" placeholder="........"></div>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-label" id="progress-label">0/10 betul</div>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+
+  <div id="questions"></div>
+
+  <div class="summary" id="summary" style="display:none;">
+    <div class="score" id="score-text">0/10</div>
+    <h2 id="summary-title">Sila cuba lagi!</h2>
+    <p id="summary-text"></p>
+    <button class="btn-reset" onclick="resetAll()">↻ Mula Semula / เริ่มใหม่</button>
+  </div>
+
+  <footer>Lembaran Kerja 1 · Tajuk: Keluarga — dibina untuk latihan bahasa Melayu</footer>
+</div>
+
+<script>
+const questions = [
+  {
+    id:1, node:"node-1",
+    icon:"👨",
+    sentence:'Ayah dalam bahasa Melayu ialah',
+    tail:'.',
+    correct:["bapa"],
+    hint:"คำนี้เป็นคำ<b>พ้องความหมาย</b>กับ Ayah ที่แปลว่า “พ่อ” เช่นกัน — ขึ้นต้นด้วยตัว B",
+    fbGood:'<span class="tag">🟢 Betul!</span> Bapa และ Ayah ทั้งสองคำหมายถึง “พ่อ” ในภาษามลายู ใช้แทนกันได้',
+    wrong:[
+      {match:["ibu","emak"], text:'<span class="tag">🔴 Belum tepat!</span> Ibu/Emak หมายถึง “แม่” ไม่ใช่ “พ่อ” คำที่ถูกต้องคือ <b>Bapa</b>'}
+    ],
+    fbBad:'<span class="tag">🔴 Belum tepat!</span> ลองนึกถึงคำอื่นที่ใช้เรียก “พ่อ” ในภาษามลายู นอกจาก Ayah ดูสิ (คำตอบคือ <b>Bapa</b>)'
+  },
+  {
+    id:2, node:"node-2",
+    icon:"👩",
+    sentence:'Ibu dalam bahasa Melayu ialah',
+    tail:'.',
+    correct:["emak"],
+    hint:"คำนี้เป็นคำ<b>พ้องความหมาย</b>กับ Ibu ที่แปลว่า “แม่” เช่นกัน — ขึ้นต้นด้วยตัว E",
+    fbGood:'<span class="tag">🟢 Betul!</span> Emak และ Ibu ทั้งสองคำหมายถึง “แม่” ในภาษามลายู',
+    wrong:[
+      {match:["ayah","bapa"], text:'<span class="tag">🔴 Belum tepat!</span> Ayah/Bapa หมายถึง “พ่อ” ไม่ใช่ “แม่” คำที่ถูกต้องคือ <b>Emak</b>'}
+    ],
+    fbBad:'<span class="tag">🔴 Belum tepat!</span> คำนี้ต้องหมายถึง “แม่” เหมือนกับ Ibu นะ (คำตอบคือ <b>Emak</b>)'
+  },
+  {
+    id:3, node:"node-3",
+    icon:"🧑",
+    sentence:'Abang ialah saudara lelaki yang',
+    tail:'daripada kita.',
+    correct:["lebih tua"],
+    hint:"Abang คือ “พี่ชาย” — ลองคิดว่าพี่ชาย<b>อายุมากกว่าหรือน้อยกว่า</b>เรา แล้วตอบเป็นภาษามลายู (lebih tua / lebih muda)",
+    fbGood:'<span class="tag">🟢 Betul!</span> Abang หมายถึง “พี่ชาย” หรือ saudara lelaki yang lebih tua = พี่น้องผู้ชายที่อายุมากกว่าเรา',
+    wrong:[
+      {match:["lebih muda","adik","muda"], text:'<span class="tag">🔴 Belum tepat!</span> Abang หมายถึง “พี่ชาย” ซึ่งเป็นพี่น้องผู้ชายที่<b>อายุมากกว่า</b>เรา ส่วน Adik หมายถึง “น้อง” ที่อายุน้อยกว่าเรา'}
+    ],
+    fbBad:'<span class="tag">🔴 Belum tepat!</span> คำตอบที่ถูกต้องคือ <b>lebih tua</b> (มากกว่า) เพราะ Abang คือพี่ชาย'
+  },
+  {
+    id:4, node:"node-4",
+    icon:"👧",
+    sentence:'Kakak ialah saudara perempuan yang',
+    tail:'daripada kita.',
+    correct:["lebih tua"],
+    hint:"Kakak คือ “พี่สาว” เหมือนหลักการเดียวกับ Abang แต่เป็นฝ่ายผู้หญิง",
+    fbGood:'<span class="tag">🟢 Betul!</span> Kakak หมายถึง “พี่สาว” คือพี่น้องผู้หญิงที่อายุมากกว่าเรา',
+    wrong:[
+      {match:["lebih muda","adik","muda"], text:'<span class="tag">🔴 Belum tepat!</span> Kakak คือพี่สาวที่<b>อายุมากกว่า</b>เรา ไม่ใช่น้องนะ ลองอีกครั้ง'}
+    ],
+    fbBad:'<span class="tag">🔴 Belum tepat!</span> คำตอบที่ถูกต้องคือ <b>lebih tua</b> เพราะ Kakak คือพี่สาว'
+  },
+  {
+    id:5, node:"node-5",
+    icon:"🧒",
+    sentence:'Adik lelaki ialah saudara lelaki yang',
+    tail:'daripada kita.',
+    correct:["lebih muda"],
+    hint:"Adik แปลว่า “น้อง” — น้องมีอายุ<b>น้อยกว่าหรือมากกว่า</b>เรา?",
+    fbGood:'<span class="tag">🟢 Betul!</span> Adik lelaki คือ “น้องชาย” พี่น้องผู้ชายที่อายุน้อยกว่าเรา',
+    wrong:[
+      {match:["lebih tua","abang","tua"], text:'<span class="tag">🔴 Belum tepat!</span> คำว่า Adik หมายถึง “น้อง” ซึ่ง<b>อายุน้อยกว่า</b>เรา ไม่ใช่มากกว่านะ'}
+    ],
+    fbBad:'<span class="tag">🔴 Belum tepat!</span> คำตอบที่ถูกต้องคือ <b>lebih muda</b> (น้อยกว่า) เพราะ Adik คือน้อง'
+  },
+  {
+    id:6, node:"node-6",
+    icon:"👦",
+    sentence:'Adik perempuan ialah saudara perempuan yang',
+    tail:'daripada kita.',
+    correct:["lebih muda"],
+    hint:"เหมือนข้อที่แล้ว แต่เป็น “น้องสาว”",
+    fbGood:'<span class="tag">🟢 Betul!</span> Adik perempuan คือ “น้องสาว” พี่น้องผู้หญิงที่อายุน้อยกว่าเรา',
+    wrong:[
+      {match:["lebih tua","kakak","tua"], text:'<span class="tag">🔴 Belum tepat!</span> Adik perempuan คือน้องสาวที่<b>อายุน้อยกว่า</b>เรานะ'}
+    ],
+    fbBad:'<span class="tag">🔴 Belum tepat!</span> คำตอบที่ถูกต้องคือ <b>lebih muda</b> เพราะ Adik perempuan คือน้องสาว'
+  },
+  {
+    id:7, node:"saya-node",
+    icon:"🙂",
+    sentence:'Anak kepada ibu dan ayah ialah',
+    tail:'.',
+    correct:["kita","saya"],
+    hint:"ลูกของพ่อกับแม่ก็คือ...<b>ตัวเราเอง</b>! ลองตอบว่า kita หรือ saya",
+    fbGood:'<span class="tag">🟢 Betul!</span> Anak kepada ibu dan ayah คือตัวเราเอง (kita / saya) นั่นเอง',
+    wrong:[
+      {match:["datuk","nenek"], text:'<span class="tag">🔴 Belum tepat!</span> Datuk/Nenek คือปู่ย่าตายาย ไม่ใช่ลูกของพ่อแม่โดยตรง คำตอบที่ถูกต้องคือ <b>kita</b> หรือ <b>saya</b>'}
+    ],
+    fbBad:'<span class="tag">🔴 Belum tepat!</span> ลองคิดดูว่าใครคือ “ลูก” ของพ่อกับแม่ในประโยคนี้ คำตอบคือตัวเราเอง (<b>kita</b> หรือ <b>saya</b>)'
+  },
+  {
+    id:8, node:"node-8",
+    icon:"👴",
+    sentence:'Ayah kepada ibu kita ialah',
+    tail:'.',
+    correct:["datuk"],
+    hint:"พ่อของแม่เรา คือ <b>คุณปู่หรือคุณตา</b>",
+    fbGood:'<span class="tag">🟢 Betul!</span> Datuk หมายถึง “คุณปู่/คุณตา” ซึ่งเป็นพ่อของแม่เรา',
+    wrong:[
+      {match:["bapa","ayah"], text:'<span class="tag">🔴 Belum tepat!</span> Datuk หมายถึง “คุณปู่/คุณตา” ส่วน Bapa/Ayah หมายถึง “พ่อ” ลองพิจารณาความสัมพันธ์อีกครั้งนะ'}
+    ],
+    fbBad:'<span class="tag">🔴 Belum tepat!</span> คำตอบที่ถูกต้องคือ <b>Datuk</b> ซึ่งแปลว่าคุณปู่/คุณตา'
+  },
+  {
+    id:9, node:"node-9",
+    icon:"👵",
+    sentence:'Ibu kepada ibu kita ialah',
+    tail:'.',
+    correct:["nenek"],
+    hint:"แม่ของแม่เรา คือ <b>คุณยายหรือคุณย่า</b>",
+    fbGood:'<span class="tag">🟢 Betul!</span> Nenek หมายถึง “คุณยาย/คุณย่า” ซึ่งเป็นแม่ของแม่เรา',
+    wrong:[
+      {match:["ibu","emak"], text:'<span class="tag">🔴 Belum tepat!</span> Ibu/Emak หมายถึง “แม่” ของเรา แต่คำถามนี้ถามถึงแม่ของแม่เรา ซึ่งคือ <b>Nenek</b>'}
+    ],
+    fbBad:'<span class="tag">🔴 Belum tepat!</span> คำตอบที่ถูกต้องคือ <b>Nenek</b> ซึ่งแปลว่าคุณยาย/คุณย่า'
+  },
+  {
+    id:10, node:null,
+    icon:"❤️",
+    sentence:'Saya sayang',
+    tail:'saya.',
+    correct:["keluarga"],
+    hint:"ประโยคนี้พูดถึงคนที่เรารักทั้งหมด ทั้งพ่อ แม่ พี่ น้อง ปู่ ย่า ตา ยาย รวมกันเป็นคำเดียว",
+    fbGood:'<span class="tag">🟢 Betul!</span> Keluarga หมายถึง “ครอบครัว” ซึ่งรวมทุกคนที่เรารักไว้ด้วยกัน 🌳',
+    wrong:[],
+    fbBad:'<span class="tag">🔴 Belum tepat!</span> ลองคิดถึงคำที่รวมทุกคนในบ้านไว้ด้วยกัน คือ <b>Keluarga</b> (ครอบครัว)'
+  }
+];
+
+const state = {};
+const qContainer = document.getElementById('questions');
+
+function normalize(s){
+  return (s||"").toLowerCase().trim().replace(/\s+/g,' ');
+}
+
+questions.forEach(q => {
+  const card = document.createElement('div');
+  card.className = 'q';
+  card.id = 'q-' + q.id;
+  card.innerHTML = `
+    <div class="qhead">
+      <div class="qnum">${q.id}</div>
+      <div class="qbody">
+        <div class="sentence"><span class="icon">${q.icon}</span>${q.sentence}
+          <input type="text" class="blank" id="input-${q.id}" placeholder="......" autocomplete="off">
+          ${q.tail}
+        </div>
+        <div class="row-actions">
+          <button class="btn-check" onclick="checkAnswer(${q.id})">✓ ตรวจคำตอบ</button>
+          <button class="btn-hint" onclick="toggleHint(${q.id})">💡 คำใบ้</button>
+        </div>
+        <div class="hint-box" id="hint-${q.id}">${q.hint}</div>
+        <div class="feedback" id="fb-${q.id}"></div>
+      </div>
+    </div>
+  `;
+  qContainer.appendChild(card);
+  const inp = document.getElementById('input-' + q.id);
+  inp.addEventListener('keydown', e => { if(e.key === 'Enter'){ checkAnswer(q.id); } });
+});
+
+function toggleHint(id){
+  document.getElementById('hint-' + id).classList.toggle('show');
+}
+
+function checkAnswer(id){
+  const q = questions.find(x => x.id === id);
+  const val = normalize(document.getElementById('input-' + id).value);
+  const card = document.getElementById('q-' + id);
+  const fb = document.getElementById('fb-' + id);
+
+  if(val === ""){
+    fb.className = 'feedback bad show';
+    fb.innerHTML = '<span class="tag">✋</span> ลองพิมพ์คำตอบก่อนนะ ถ้าไม่แน่ใจกดปุ่มคำใบ้ได้เลย';
+    return;
+  }
+
+  const isCorrect = q.correct.some(c => normalize(c) === val);
+
+  if(isCorrect){
+    card.classList.remove('incorrect');
+    card.classList.add('correct');
+    fb.className = 'feedback good show';
+    fb.innerHTML = q.fbGood;
+    state[id] = true;
+    if(q.node) lightUp(q.node);
+  } else {
+    card.classList.remove('correct');
+    card.classList.add('incorrect');
+    fb.className = 'feedback bad show';
+    let matched = null;
+    for(const w of q.wrong){
+      if(w.match.some(m => val.includes(m))){ matched = w.text; break; }
+    }
+    fb.innerHTML = matched || q.fbBad;
+    state[id] = false;
+  }
+  updateProgress();
+}
+
+function lightUp(nodeId){
+  document.getElementById(nodeId).classList.add('lit');
+}
+
+function updateProgress(){
+  const correctCount = Object.values(state).filter(Boolean).length;
+  document.getElementById('progress-fill').style.width = (correctCount/10*100) + '%';
+  document.getElementById('progress-label').textContent = correctCount + '/10 betul';
+
+  const answeredAll = Object.keys(state).length === 10;
+  const summary = document.getElementById('summary');
+
+  if(state[10]){
+    document.getElementById('tree').classList.add('glow');
+    const hn = document.getElementById('heart-note');
+    hn.classList.add('on');
+    hn.textContent = '❤️ Saya sayang keluarga saya — รักครอบครัวเปล่งประกายแล้ว!';
+  }
+
+  if(answeredAll){
+    summary.style.display = 'block';
+    document.getElementById('score-text').textContent = correctCount + '/10';
+    const title = document.getElementById('summary-title');
+    const text = document.getElementById('summary-text');
+    if(correctCount === 10){
+      title.textContent = 'Syabas! เก่งมาก! 🎉';
+      text.textContent = 'ตอบถูกครบทุกข้อ นักเรียนรู้จักคำศัพท์ครอบครัวในภาษามลายูดีมากแล้ว!';
+    } else if(correctCount >= 7){
+      title.textContent = 'Bagus! ทำได้ดีมาก 👏';
+      text.textContent = 'เกือบครบแล้ว ลองกลับไปดูข้อที่ยังตอบผิดอีกครั้งนะ';
+    } else {
+      title.textContent = 'Jangan risau, cuba lagi! สู้ ๆ 💪';
+      text.textContent = 'ลองอ่านคำใบ้และทบทวนคำศัพท์ในต้นไม้ครอบครัวด้านบนอีกครั้ง แล้วลองใหม่ได้เสมอ';
+    }
+    summary.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+}
+
+function resetAll(){
+  questions.forEach(q => {
+    document.getElementById('input-' + q.id).value = '';
+    const fb = document.getElementById('fb-' + q.id);
+    fb.className = 'feedback';
+    fb.innerHTML = '';
+    document.getElementById('q-' + q.id).classList.remove('correct','incorrect');
+    document.getElementById('hint-' + q.id).classList.remove('show');
+    if(q.node) document.getElementById(q.node).classList.remove('lit');
+  });
+  document.getElementById('tree').classList.remove('glow');
+  const hn = document.getElementById('heart-note');
+  hn.classList.remove('on');
+  hn.textContent = '— รักครอบครัวจะเปล่งประกายเมื่อทำครบทุกข้อ —';
+  Object.keys(state).forEach(k => delete state[k]);
+  document.getElementById('summary').style.display = 'none';
+  updateProgress();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+</script>
+</body>
+</html>
